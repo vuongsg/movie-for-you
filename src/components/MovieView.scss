@@ -1,0 +1,19 @@
+#grid-info {
+    padding-left: 40vw;
+
+    ul {
+        li {
+            margin-left: 50px;
+        }
+    }
+}
+
+@media screen and (max-width: 1280px) {
+    #paper-brief-movies-list {
+        height: 200px;
+    }
+
+    #grid-info {
+        padding-left: 40vw;
+    }
+}
