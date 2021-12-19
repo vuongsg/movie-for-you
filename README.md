@@ -1,7 +1,7 @@
 # Introduction
-Find information of movie that you'd love here.
+Find information of movie that you're interested here.
 
-## Website for it
+## Official website
 <a href="https://movie-for-you-with-vuong.netlify.app/" target="_blank">https://movie-for-you-with-vuong.netlify.app</a>
 
 ## API source

@@ -12,6 +12,7 @@ import { RootType } from '../store';
 import { Constants } from '../constants';
 import './NavBar.scss'
 import { Search } from '../models/Search';
+import { Keyboard, KeyboardSharp } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -142,13 +143,23 @@ export const NavBar = ():ReactElement => {
     </Menu>
   );
 
+  const handleKeyDown = async(e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      const title = (document.querySelector('#search-box') as HTMLInputElement)?.value.trim();
+      await getBriefMovies(title);
+    }
+  }
+
   const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const title = (document.querySelector('#search-box') as HTMLInputElement)?.value.trim();
+    await getBriefMovies(title);
+  }
 
+  const getBriefMovies = async(title: string) => {
     try {
       dispatch(setBriefMovies([[], '', 1, 0])); //to make List scrollbar to top
-
-      const title = (document.querySelector('#search-box') as HTMLInputElement)?.value.trim();
+      
       let response = await fetch(`${Constants.BASE_URL}?s=${title}&apikey=${Constants.API_KEY}`);
 
       if (response.ok) {
@@ -166,7 +177,7 @@ export const NavBar = ():ReactElement => {
             search = data as Search;
 
             briefMovies = briefMovies.concat(Array.from(search.Search));
-            currentPage = 2;
+            currentPage++;
           }
         }
 
@@ -190,7 +201,7 @@ export const NavBar = ():ReactElement => {
 
           <form onSubmit={e => handleSubmit(e)}>
             <div className={classes.search} style={{ display: 'flex' }}>
-              <input type='text' id='search-box' style={{ fontSize: '18px' }} />
+              <input type='text' id='search-box' style={{ fontSize: '18px' }} onKeyDown={handleKeyDown} />
               <input type='submit' value='Search' style={{ width: '80px' }} />
             </div>
           </form>

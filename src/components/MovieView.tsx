@@ -1,6 +1,6 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import { useDispatch, useSelector, } from "react-redux";
-import { Container, Grid , Paper, List, ListItem, ListItemIcon, ListItemText, SnackbarContent } from "@material-ui/core";
+import { Container, Grid, List, ListItem, ListItemText, SnackbarContent, ListItemAvatar, Box } from "@material-ui/core";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { makeStyles } from "@material-ui/core";
 import './MovieView.scss';
@@ -56,6 +56,7 @@ export const MovieView = (): ReactElement => {
                 }
 
                 list = list.concat(addedList);
+
                 dispatch(setBriefMovies([list, movieState.keyword, movieState.currentPage + 1, movieState.totalItems]));
             }
         } catch {
@@ -64,9 +65,10 @@ export const MovieView = (): ReactElement => {
         }
     }
 
-    const handleSelectMovie = async (event: any, index: number, title: string) => {
+    const handleSelectMovie = async (event: any, index: number) => {
         try {
-            const response = await fetch(`${Constants.BASE_URL}?t=${title}&apikey=${Constants.API_KEY}`);
+            const briefMovie = movieState.briefMovies[index];
+            const response = await fetch(`${Constants.BASE_URL}?i=${briefMovie.imdbID}&plot=full&apikey=${Constants.API_KEY}`);
 
             if (response.ok) {
                 const data = await response.json();
@@ -83,26 +85,26 @@ export const MovieView = (): ReactElement => {
      */
      const renderBriefMovies = () => {
         return (
-            <Paper id='paper-brief-movies-list' style={{ maxHeight: 700, marginBottom: 30, overflow: 'auto' }}>
+            <Box id='box-brief-movies-list' style={{ minHeight: 300, maxHeight: 700, marginBottom: 30, overflow: 'auto' }}>
                 <List component="nav" aria-label="brief movies list">
                     <InfiniteScroll dataLength={movieState.briefMovies.length}
                         next={fetchMovieTitlesMore}
                         hasMore={hasData}
-                        scrollThreshold={0.8}
+                        scrollThreshold={0.6}
                         loader={<h4>Loading...</h4>}
-                        scrollableTarget="paper-brief-movies-list">
+                        scrollableTarget="box-brief-movies-list">
                         {movieState.briefMovies.map((m: BriefMovie, index: number) =>
-                            <ListItem key={index} button selected={movieState.selectedIndex === index} 
-                                      onClick={(event) => handleSelectMovie(event, index, movieState.briefMovies[index].Title)}>
-                                <ListItemIcon>
+                            <ListItem key={index} alignItems="flex-start" button selected={movieState.selectedIndex === index}
+                                onClick={(event) => handleSelectMovie(event, index)}>
+                                <ListItemAvatar>
                                     <img src={m.Poster} alt={m.Title} style={{ maxWidth: 50, maxHeight: 50, objectFit: 'cover' }} />
-                                </ListItemIcon>
+                                </ListItemAvatar>
                                 <ListItemText primary={m.Title} secondary={m.Year} />
                             </ListItem>
                         )}
                     </InfiniteScroll>
                 </List>
-            </Paper>
+            </Box>
         )
     }
 
@@ -135,8 +137,7 @@ export const MovieView = (): ReactElement => {
                                 </Grid>
                                 <Grid container direction='row'>
                                     <Grid item sm={12} lg={3} style={{ textAlign: 'center', margin:'0 auto', marginBottom: 30, paddingLeft: 30 }}>
-                                        <img src={movieState?.currentMovie?.Poster} alt=''
-                                            style={{ width: '100%', maxWidth: 270, maxHeight: 270, objectFit: 'cover' }} />
+                                        <img className='thumbnail' src={movieState?.currentMovie?.Poster} alt={movieState?.currentMovie?.Title} />
                                     </Grid>
                                     <Grid item sm={12} lg={9} id='grid-info' style={{ textAlign: 'left', lineHeight: 2, marginBottom: 30, paddingLeft: 30 }}>
                                         <p>- Released: {movieState?.currentMovie?.Released}</p>
