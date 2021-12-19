@@ -132,7 +132,7 @@ export const MovieView = (): ReactElement => {
                             </Grid>
                             :
                             <Grid container direction="row">
-                                <Grid item sm={12} style={{ textAlign: 'center', margin: '0 auto', marginBottom: 30 }}>
+                                <Grid item sm={12} style={{ textAlign: 'center', margin: '0 auto', marginBottom: 30, paddingLeft: 30 }}>
                                     <h1>{movieState?.currentMovie?.Title}</h1>
                                 </Grid>
                                 <Grid container direction='row'>
