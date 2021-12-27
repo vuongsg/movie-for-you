@@ -3,12 +3,13 @@ import { useDispatch, useSelector, } from "react-redux";
 import { Container, Grid, List, ListItem, ListItemText, SnackbarContent, ListItemAvatar, Box } from "@material-ui/core";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { makeStyles } from "@material-ui/core";
-import './MovieView.scss';
+import "./MovieView.scss";
 import { RootType } from "../store";
 import { setBriefMovies, MovieState, setCurrentMovie } from "../slices/movie-slice";
 import { Search, BriefMovie } from "../models/Search";
 import { Constants } from "../constants";
 import { Movie } from "../models/Movie";
+import { MovieInfo } from "./MovieInfo";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -131,61 +132,7 @@ export const MovieView = (): ReactElement => {
                                 </Grid>
                             </Grid>
                             :
-                            <Grid container direction="row">
-                                <Grid item sm={12} style={{ textAlign: 'center', margin: '0 auto', marginBottom: 30, paddingLeft: 30 }}>
-                                    <h1>{movieState?.currentMovie?.Title}</h1>
-                                </Grid>
-                                <Grid container direction='row'>
-                                    <Grid item sm={12} lg={3} style={{ textAlign: 'center', margin:'0 auto', marginBottom: 30, paddingLeft: 30 }}>
-                                        <img className='thumbnail' src={movieState?.currentMovie?.Poster} alt={movieState?.currentMovie?.Title} />
-                                    </Grid>
-                                    <Grid item sm={12} lg={9} id='grid-info' style={{ textAlign: 'left', lineHeight: 2, marginBottom: 30, paddingLeft: 30 }}>
-                                        <p>- Released: {movieState?.currentMovie?.Released}</p>
-                                        <p>- {movieState?.currentMovie?.Genre?.indexOf(',') !== -1 ? 'Genres' : 'Genre'}:
-                                            {<ul>
-                                                {movieState?.currentMovie?.Genre?.split(',').map(m => <li>{m.trim()}</li>)}
-                                            </ul>}
-                                        </p>
-                                        <p>- {movieState?.currentMovie?.Director?.indexOf(',') !== -1 ? 'Directors' : 'Director'}:
-                                            {<ul>
-                                                {movieState?.currentMovie?.Director?.split(',').map(m => <li>{m.trim()}</li>)}
-                                            </ul>}
-                                        </p>
-                                        <p>- {movieState?.currentMovie?.Writer?.indexOf(',') !== -1 ? 'Writers' : 'Writer'}:
-                                            {<ul>
-                                                {movieState?.currentMovie?.Writer?.split(',').map(m => <li>{m.trim()}</li>)}
-                                            </ul>}
-                                        </p>
-                                        <p>- Actors:
-                                            <ul>
-                                                {movieState?.currentMovie?.Actors?.split(',').map(m => <li>{m.trim()}</li>)}
-                                            </ul>
-                                        </p>
-                                        <p>- Ratings:
-                                            <ul>
-                                                {movieState?.currentMovie?.Ratings?.map(m => <li>{m?.Source + ' (' + m?.Value + ')'}</li>)}
-                                            </ul>
-                                        </p>
-                                        <p>- Awards: {movieState?.currentMovie?.Awards}</p>
-                                        <p>- {movieState?.currentMovie?.Language?.indexOf(',') !== -1 ? 'Languages' : 'Language'}:
-                                            {<ul>
-                                                {movieState?.currentMovie?.Language?.split(',').map(m => <li>{m.trim()}</li>)}
-                                            </ul>}
-                                        </p>
-                                        <p>- Plot: {movieState?.currentMovie?.Plot}</p>
-                                        <p>- {movieState?.currentMovie?.Country?.indexOf(',') !== -1 ? 'Countries' : 'Country'}:
-                                            {<ul>
-                                                {movieState?.currentMovie?.Country?.split(',').map(m => <li>{m.trim()}</li>)}
-                                            </ul>}
-                                        </p>
-                                        <p>- Website: {movieState?.currentMovie?.Website?.startsWith('http') ? <a href={movieState?.currentMovie?.Website} rel='noreferrer' target='_blank'>
-                                                                                                                <button >{movieState?.currentMovie?.Website}</button>
-                                                                                                            </a>
-                                                                                                          : movieState?.currentMovie?.Website}
-                                        </p>
-                                    </Grid>
-                                </Grid>
-                            </Grid>}
+                            <MovieInfo movie={movieState.currentMovie} />}
                 </Grid>
             </Grid>
         </Container>
