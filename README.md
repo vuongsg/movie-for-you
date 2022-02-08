@@ -30,3 +30,4 @@ yarn start
 - Redux
 - Redux Toolkit
 - TypeScript
+- Material UI
