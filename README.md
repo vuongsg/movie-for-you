@@ -1,5 +1,7 @@
 # Introduction
-Find information of movie that you're interested here.
+Find information of any movie that you're interested here.
+
+![Alt text](https://github.com/vuongsg/movie-for-you/blob/master/screenshot.png?raw=true "Title")
 
 ## Official website
 <a href="https://movie-for-you-with-vuong.netlify.app/" target="_blank">https://movie-for-you-with-vuong.netlify.app</a>

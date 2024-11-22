@@ -13,17 +13,15 @@
     max-width: 270px;
     max-height: 270px;
     object-fit: cover;
+    cursor: pointer;
 }
 
 .thumbnail:hover {
     display: block;
     position: relative;
-    top: 10px;
-    left: 35px;
-    width: 200%;
-    height: 200%;
-    max-width: 500px;
-    max-height: 500px;
+    top: 90px;
+    left: 175px;
+    transform: scale(3);
     border: 3px solid lightgray;
     z-index: 888;
 }
